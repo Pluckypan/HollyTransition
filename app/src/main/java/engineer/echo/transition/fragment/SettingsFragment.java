@@ -1,18 +1,28 @@
 package engineer.echo.transition.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewCompat;
+import android.transition.ChangeBounds;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.transition.TransitionManager;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
-import com.flurgle.camerakit.CameraView;
-
+import engineer.echo.transition.App;
 import engineer.echo.transition.R;
 import engineer.echo.transition.context.BaseFragment;
+import engineer.echo.transition.widget.transition.BoundsAndAlpha;
+
+import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_LEFT;
+import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_MIDDLE;
+import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_RIGHT;
 
 /**
  * AppDisplayFragment
@@ -23,6 +33,8 @@ import engineer.echo.transition.context.BaseFragment;
 public class SettingsFragment extends BaseFragment implements View.OnClickListener {
 
     private View mPhotoBtn;
+    private LinearLayout mRoot;
+    private View mOne, mTwo, mThree;
 
 
     public SettingsFragment() {
@@ -60,6 +72,17 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         mPhotoBtn = view.findViewById(R.id.take_photo_btn);
         mPhotoBtn.setOnClickListener(this);
+        mRoot = view.findViewById(R.id.app_settings_change);
+        mOne = view.findViewById(R.id.app_settings_change_one);
+        mTwo = view.findViewById(R.id.app_settings_change_two);
+        mThree = view.findViewById(R.id.app_settings_change_three);
+        mOne.setOnClickListener(this);
+        mTwo.setOnClickListener(this);
+        mThree.setOnClickListener(this);
+
+        ViewCompat.setTransitionName(mOne, SHARE_NAME_LEFT);
+        ViewCompat.setTransitionName(mTwo, SHARE_NAME_MIDDLE);
+        ViewCompat.setTransitionName(mThree, SHARE_NAME_RIGHT);
         return view;
     }
 
@@ -75,15 +98,53 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.take_photo_btn:
                 getActivity().onBackPressed();
                 break;
+            case R.id.app_settings_change_one:
+            case R.id.app_settings_change_two:
+            case R.id.app_settings_change_three:
+                changeAttr(view);
+                break;
         }
     }
 
-    public static void gotoPage(FragmentManager manager) {
+    private void changeAttr(View v) {
+        ChangeBounds changeBounds = new ChangeBounds();
+        changeBounds.setDuration(1000);
+        TransitionManager.beginDelayedTransition(mRoot, changeBounds);
+        LinearLayout.LayoutParams paramsOne = (LinearLayout.LayoutParams) mOne.getLayoutParams();
+        paramsOne.weight = v == mOne ? 1.0f : 0.5f;
+        mOne.setLayoutParams(paramsOne);
+        LinearLayout.LayoutParams paramsTwo = (LinearLayout.LayoutParams) mTwo.getLayoutParams();
+        paramsTwo.weight = v == mTwo ? 1.0f : 0.5f;
+        mTwo.setLayoutParams(paramsTwo);
+        LinearLayout.LayoutParams paramsThree = (LinearLayout.LayoutParams) mThree.getLayoutParams();
+        paramsThree.weight = v == mThree ? 1.0f : 0.5f;
+        mThree.setLayoutParams(paramsThree);
+    }
+
+    public static void gotoPage(FragmentManager manager, Pair<View, String>... shareViews) {
         SettingsFragment fragment = SettingsFragment.newInstance();
-        manager.beginTransaction()
-                .replace(R.id.app_ctrl_view, fragment)
-                .addToBackStack(null)
-                .commit();
+        fragment.setAllowEnterTransitionOverlap(false);
+        fragment.setAllowReturnTransitionOverlap(false);
+
+        Transition transitionIn = TransitionInflater.from(App.getApp()).inflateTransition(R.transition.transition_settings_in);
+        fragment.setEnterTransition(transitionIn);
+
+        Transition transitionOut = TransitionInflater.from(App.getApp()).inflateTransition(R.transition.transition_settings_out);
+        fragment.setReturnTransition(transitionOut);
+
+        BoundsAndAlpha boundsAndAlpha = new BoundsAndAlpha();
+        boundsAndAlpha.setDuration(400);
+        fragment.setSharedElementEnterTransition(boundsAndAlpha);
+
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.replace(R.id.app_ctrl_view, fragment);
+        fragmentTransaction.addToBackStack(null);
+        if (shareViews != null) {
+            for (Pair<View, String> shareView : shareViews) {
+                fragmentTransaction.addSharedElement(shareView.first, shareView.second);
+            }
+        }
+        fragmentTransaction.commit();
 
     }
 }
