@@ -2,6 +2,8 @@ package engineer.echo.transition.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,11 @@ import engineer.echo.transition.context.BaseFragment;
 
 public class AppCtrlFragment extends BaseFragment implements View.OnClickListener {
 
+    public static String SHARE_NAME_LEFT = "share_element_of_left";
+    public static String SHARE_NAME_MIDDLE = "share_element_of_middle";
+    public static String SHARE_NAME_RIGHT = "share_element_of_right";
     private View mSceneBtn, mPhotoBtn, mSettingsBtn;
+    private Pair<View, String>[] mShareViews = new Pair[3];
 
     public AppCtrlFragment() {
 
@@ -61,6 +67,13 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
         mPhotoBtn.setOnClickListener(this);
         mSettingsBtn.setOnClickListener(this);
 
+        ViewCompat.setTransitionName(mSceneBtn, SHARE_NAME_LEFT);
+        ViewCompat.setTransitionName(mPhotoBtn, SHARE_NAME_MIDDLE);
+        ViewCompat.setTransitionName(mSettingsBtn, SHARE_NAME_RIGHT);
+
+        mShareViews[0] = new Pair<>(mSceneBtn, SHARE_NAME_LEFT);
+        mShareViews[1] = new Pair<>(mPhotoBtn, SHARE_NAME_MIDDLE);
+        mShareViews[2] = new Pair<>(mSettingsBtn, SHARE_NAME_RIGHT);
         return view;
     }
 
@@ -77,7 +90,7 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
             case R.id.take_photo_btn:
                 break;
             case R.id.settings_btn:
-                SettingsFragment.gotoPage(getFragmentManager());
+                SettingsFragment.gotoPage(getFragmentManager(), mShareViews);
                 break;
         }
     }
