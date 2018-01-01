@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">HollyTransition</string>
+    <string name="app_name">动起来</string>
+    <string name="label_photo">Photo</string>
+    <string name="label_settings">Settings</string>
 </resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="30dp">
+
+    <engineer.echo.transition.widget.reflect.ReflectItemView
+        android:id="@+id/scene_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginRight="30dp"
+        app:isShape="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/take_photo_btn"
+        app:radius="40dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/girl" />
+    </engineer.echo.transition.widget.reflect.ReflectItemView>
+
+    <TextView
+        android:id="@+id/take_photo_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/shape_purple_circle"
+        android:gravity="center"
+        android:text="@string/label_photo"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/settings_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="30dp"
+        android:background="@drawable/shape_pink_circle"
+        android:gravity="center"
+        android:text="@string/label_settings"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/take_photo_btn" />
+
+</android.support.constraint.ConstraintLayout>
