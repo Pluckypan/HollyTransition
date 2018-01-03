@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.transition.ChangeBounds;
+import android.transition.Fade;
 import android.transition.Scene;
+import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
@@ -42,6 +44,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private View mFakeLeft, mPhotoBtn, mFakeRight;
     private LinearLayout mRoot;
     private View mOne, mTwo, mThree, mFour;
+    private View mSceneOne, mSceneTwo, mSceneThree, mSceneFour;
     private int mNormalSize, mScaleSize;
     private LinearLayout mSceneRoot;
 
@@ -99,6 +102,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         mThree.setOnClickListener(this);
         mFour.setOnClickListener(this);
 
+        initSceneView(view);
+
         mSceneRoot = view.findViewById(R.id.app_settings_scene_change);
         view.findViewById(R.id.app_settings_scene_btn).setOnClickListener(this);
 
@@ -129,7 +134,31 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.app_settings_scene_btn:
                 sceneChange();
                 break;
+
+            case R.id.app_settings_scene_one:
+            case R.id.app_settings_scene_two:
+            case R.id.app_settings_scene_three:
+            case R.id.app_settings_scene_four:
+                visibilityChange(view);
+                break;
         }
+    }
+
+    private void initSceneView(View view) {
+        mSceneOne = view.findViewById(R.id.app_settings_scene_one);
+        mSceneTwo = view.findViewById(R.id.app_settings_scene_two);
+        mSceneThree = view.findViewById(R.id.app_settings_scene_three);
+        mSceneFour = view.findViewById(R.id.app_settings_scene_four);
+
+        mSceneOne.setOnClickListener(this);
+        mSceneTwo.setOnClickListener(this);
+        mSceneThree.setOnClickListener(this);
+        mSceneFour.setOnClickListener(this);
+    }
+
+    private void visibilityChange(View view) {
+        TransitionManager.beginDelayedTransition(mSceneRoot, new Fade());
+        view.setVisibility(View.GONE);
     }
 
     /**
