@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import engineer.echo.transition.App;
 import engineer.echo.transition.R;
 import engineer.echo.transition.context.BaseFragment;
+import engineer.echo.transition.utils.CommonUtil;
+import engineer.echo.transition.widget.RoundAngleFrameLayout;
 import engineer.echo.transition.widget.transition.BoundsAndAlpha;
 
 import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_LEFT;
@@ -34,11 +36,13 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private View mFakeLeft, mPhotoBtn, mFakeRight;
     private LinearLayout mRoot;
-    private View mOne, mTwo, mThree;
+    private View mOne, mTwo, mThree, mFour;
+    private int mNormalSize, mScaleSize;
 
 
     public SettingsFragment() {
-
+        mNormalSize = (int) CommonUtil.dip2px(60);
+        mScaleSize = (int) (mNormalSize * 1.5f);
     }
 
     public static SettingsFragment newInstance() {
@@ -76,12 +80,16 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
         mPhotoBtn.setOnClickListener(this);
         mRoot = view.findViewById(R.id.app_settings_change);
+
         mOne = view.findViewById(R.id.app_settings_change_one);
         mTwo = view.findViewById(R.id.app_settings_change_two);
         mThree = view.findViewById(R.id.app_settings_change_three);
+        mFour = view.findViewById(R.id.app_settings_change_four);
+
         mOne.setOnClickListener(this);
         mTwo.setOnClickListener(this);
         mThree.setOnClickListener(this);
+        mFour.setOnClickListener(this);
 
         ViewCompat.setTransitionName(mFakeLeft, SHARE_NAME_LEFT);
         ViewCompat.setTransitionName(mPhotoBtn, SHARE_NAME_MIDDLE);
@@ -104,6 +112,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.app_settings_change_one:
             case R.id.app_settings_change_two:
             case R.id.app_settings_change_three:
+            case R.id.app_settings_change_four:
                 changeAttr(view);
                 break;
         }
@@ -111,17 +120,21 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private void changeAttr(View v) {
         ChangeBounds changeBounds = new ChangeBounds();
-        changeBounds.setDuration(600);
+        changeBounds.setDuration(400);
         TransitionManager.beginDelayedTransition(mRoot, changeBounds);
-        LinearLayout.LayoutParams paramsOne = (LinearLayout.LayoutParams) mOne.getLayoutParams();
-        paramsOne.weight = v == mOne ? 1.0f : 0.5f;
-        mOne.setLayoutParams(paramsOne);
-        LinearLayout.LayoutParams paramsTwo = (LinearLayout.LayoutParams) mTwo.getLayoutParams();
-        paramsTwo.weight = v == mTwo ? 1.0f : 0.5f;
-        mTwo.setLayoutParams(paramsTwo);
-        LinearLayout.LayoutParams paramsThree = (LinearLayout.LayoutParams) mThree.getLayoutParams();
-        paramsThree.weight = v == mThree ? 1.0f : 0.5f;
-        mThree.setLayoutParams(paramsThree);
+        int c = mRoot.getChildCount();
+        for (int i = 0; i < c; i++) {
+            RoundAngleFrameLayout child = (RoundAngleFrameLayout) mRoot.getChildAt(i);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) child.getLayoutParams();
+            if (child == v) {
+                params.width = mScaleSize;
+                params.height = mScaleSize;
+            } else {
+                params.width = mNormalSize;
+                params.height = mNormalSize;
+            }
+            child.setLayoutParams(params);
+        }
     }
 
     public static void gotoPage(FragmentManager manager, Pair<View, String>... shareViews) {
