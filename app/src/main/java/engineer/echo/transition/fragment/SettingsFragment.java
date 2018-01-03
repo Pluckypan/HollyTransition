@@ -22,12 +22,14 @@ import engineer.echo.transition.context.BaseFragment;
 import engineer.echo.transition.utils.CommonUtil;
 import engineer.echo.transition.widget.transition.BoundsAndAlpha;
 
+import static engineer.echo.transition.Constants.TRANSITION_TIME;
+import static engineer.echo.transition.Constants.TRANSITION_TIME_SHORT;
 import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_LEFT;
 import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_MIDDLE;
 import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_RIGHT;
 
 /**
- * AppDisplayFragment
+ * SettingsFragment
  * Created by Plucky<plucky@echo.engineer> on 2018/1/1 下午3:28.
  * more about me: http://www.1991th.com
  * 总结：
@@ -81,6 +83,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         mFakeLeft = view.findViewById(R.id.app_settings_fake_left);
         mPhotoBtn = view.findViewById(R.id.take_photo_btn);
         mFakeRight = view.findViewById(R.id.app_settings_fake_right);
+        mFakeLeft.setTag(R.id.key_for_alpha_change_when_share_element, true);
+        mFakeRight.setTag(R.id.key_for_alpha_change_when_share_element, true);
 
         mPhotoBtn.setOnClickListener(this);
         mRoot = view.findViewById(R.id.app_settings_change);
@@ -146,7 +150,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
      */
     private void changeAttr(View v) {
         ChangeBounds changeBounds = new ChangeBounds();
-        changeBounds.setDuration(400);
+        changeBounds.setDuration(TRANSITION_TIME_SHORT);
         TransitionManager.beginDelayedTransition(mRoot, changeBounds);
         int c = mRoot.getChildCount();
         for (int i = 0; i < c; i++) {
@@ -174,12 +178,12 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         Transition transitionOut = TransitionInflater.from(App.getApp()).inflateTransition(R.transition.transition_settings_out);
         fragment.setReturnTransition(transitionOut);
 
-        BoundsAndAlpha boundsIn = new BoundsAndAlpha();
-        boundsIn.setDuration(600);
+        BoundsAndAlpha boundsIn = new BoundsAndAlpha(true);
+        boundsIn.setDuration(TRANSITION_TIME);
         fragment.setSharedElementEnterTransition(boundsIn);
 
-        BoundsAndAlpha boundsOut = new BoundsAndAlpha();
-        boundsOut.setDuration(600);
+        BoundsAndAlpha boundsOut = new BoundsAndAlpha(false);
+        boundsOut.setDuration(TRANSITION_TIME);
         fragment.setSharedElementReturnTransition(boundsOut);
 
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
