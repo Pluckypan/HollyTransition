@@ -32,7 +32,7 @@ import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_RIGHT
 
 public class SettingsFragment extends BaseFragment implements View.OnClickListener {
 
-    private View mPhotoBtn;
+    private View mFakeLeft, mPhotoBtn, mFakeRight;
     private LinearLayout mRoot;
     private View mOne, mTwo, mThree;
 
@@ -70,7 +70,10 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        mFakeLeft = view.findViewById(R.id.app_settings_fake_left);
         mPhotoBtn = view.findViewById(R.id.take_photo_btn);
+        mFakeRight = view.findViewById(R.id.app_settings_fake_right);
+
         mPhotoBtn.setOnClickListener(this);
         mRoot = view.findViewById(R.id.app_settings_change);
         mOne = view.findViewById(R.id.app_settings_change_one);
@@ -80,9 +83,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         mTwo.setOnClickListener(this);
         mThree.setOnClickListener(this);
 
-        ViewCompat.setTransitionName(mOne, SHARE_NAME_LEFT);
-        ViewCompat.setTransitionName(mTwo, SHARE_NAME_MIDDLE);
-        ViewCompat.setTransitionName(mThree, SHARE_NAME_RIGHT);
+        ViewCompat.setTransitionName(mFakeLeft, SHARE_NAME_LEFT);
+        ViewCompat.setTransitionName(mPhotoBtn, SHARE_NAME_MIDDLE);
+        ViewCompat.setTransitionName(mFakeRight, SHARE_NAME_RIGHT);
         return view;
     }
 
@@ -108,7 +111,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
 
     private void changeAttr(View v) {
         ChangeBounds changeBounds = new ChangeBounds();
-        changeBounds.setDuration(1000);
+        changeBounds.setDuration(600);
         TransitionManager.beginDelayedTransition(mRoot, changeBounds);
         LinearLayout.LayoutParams paramsOne = (LinearLayout.LayoutParams) mOne.getLayoutParams();
         paramsOne.weight = v == mOne ? 1.0f : 0.5f;
@@ -132,14 +135,18 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         Transition transitionOut = TransitionInflater.from(App.getApp()).inflateTransition(R.transition.transition_settings_out);
         fragment.setReturnTransition(transitionOut);
 
-        BoundsAndAlpha boundsAndAlpha = new BoundsAndAlpha();
-        boundsAndAlpha.setDuration(400);
-        fragment.setSharedElementEnterTransition(boundsAndAlpha);
+        BoundsAndAlpha boundsIn = new BoundsAndAlpha();
+        boundsIn.setDuration(600);
+        fragment.setSharedElementEnterTransition(boundsIn);
+
+        BoundsAndAlpha boundsOut = new BoundsAndAlpha();
+        boundsOut.setDuration(600);
+        fragment.setSharedElementReturnTransition(boundsOut);
 
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.app_ctrl_view, fragment);
         fragmentTransaction.addToBackStack(null);
-        if (shareViews != null) {
+        if (shareViews != null && shareViews.length > 0) {
             for (Pair<View, String> shareView : shareViews) {
                 fragmentTransaction.addSharedElement(shareView.first, shareView.second);
             }

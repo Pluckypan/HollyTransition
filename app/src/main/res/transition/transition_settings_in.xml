@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
-    <fade android:duration="400">
+    <fade android:duration="600">
         <targets>
             <target android:targetId="@+id/app_settings_bg" />
         </targets>
     </fade>
-    <slide android:duration="400">
+    <slide android:duration="600">
         <targets>
             <target android:targetId="@+id/app_settings_about" />
             <target android:targetId="@+id/app_settings_func" />
         </targets>
     </slide>
     <slide
-        android:duration="400"
+        android:duration="500"
         android:slideEdge="left"
         android:startDelay="100">
         <targets>

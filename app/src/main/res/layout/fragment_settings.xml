@@ -9,7 +9,7 @@
         android:id="@+id/app_settings_bg"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#EEFFFFFF"
+        android:background="#EE000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="让Android界面过度如丝滑般流畅\n版本:0.0.1\n2018-01-01 12:00 00" />
+            android:text="让Android界面过度如丝滑般流畅\n版本:0.0.1\n2018-01-01 12:00 00"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
@@ -55,7 +56,8 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1.支持xml和Java实现动画\n2.TransitionSet可实现更丰富的组合动画\n3.入场动画与返场动画\n4.更简单的元素共享\n5.Scene动画" />
+            android:text="1.支持xml和Java实现动画\n2.TransitionSet可实现更丰富的组合动画\n3.入场动画与返场动画\n4.更简单的元素共享\n5.Scene动画"
+            android:textColor="@android:color/white" />
 
 
     </LinearLayout>
@@ -94,16 +96,16 @@
 
     <engineer.echo.transition.widget.reflect.ReflectItemView
         android:id="@+id/app_settings_fake_left"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
-        android:visibility="gone"
+        android:alpha="0"
         app:isShape="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/take_photo_btn"
-        app:radius="40dp"
-        tools:visibility="visible">
+        app:radius="20dp"
+        tools:alpha="1">
 
         <ImageView
             android:layout_width="match_parent"
@@ -112,32 +114,28 @@
             android:src="@drawable/girl" />
     </engineer.echo.transition.widget.reflect.ReflectItemView>
 
-    <TextView
+    <ImageView
         android:id="@+id/take_photo_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/shape_purple_circle"
-        android:gravity="center"
-        android:text="@string/label_photo"
-        android:textColor="@android:color/white"
+        android:scaleType="centerCrop"
+        android:src="@drawable/play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <ImageView
         android:id="@+id/app_settings_fake_right"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
-        android:background="@drawable/shape_pink_circle"
-        android:gravity="center"
-        android:text="@string/label_settings"
-        android:textColor="@android:color/white"
-        android:visibility="gone"
+        android:alpha="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/set"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/take_photo_btn"
-        tools:visibility="visible" />
+        tools:alpha="1" />
 
 </android.support.constraint.ConstraintLayout>
