@@ -70,52 +70,28 @@
         app:layout_constraintTop_toBottomOf="@id/app_settings_func">
 
 
-        <engineer.echo.transition.widget.RoundAngleFrameLayout
+        <ImageView
             android:id="@+id/app_settings_change_one"
-            style="@style/GirlStyle">
+            style="@style/GirlStyle"
+            android:src="@drawable/girl_0" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/girl_0" />
-        </engineer.echo.transition.widget.RoundAngleFrameLayout>
-
-        <engineer.echo.transition.widget.RoundAngleFrameLayout
+        <ImageView
             android:id="@+id/app_settings_change_two"
-            style="@style/GirlStyle">
+            style="@style/GirlStyle"
+            android:src="@drawable/girl_1" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/girl_1" />
-        </engineer.echo.transition.widget.RoundAngleFrameLayout>
-
-        <engineer.echo.transition.widget.RoundAngleFrameLayout
+        <ImageView
             android:id="@+id/app_settings_change_three"
-            style="@style/GirlStyle">
+            style="@style/GirlStyle"
+            android:src="@drawable/girl_2" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/girl_2" />
-        </engineer.echo.transition.widget.RoundAngleFrameLayout>
-
-        <engineer.echo.transition.widget.RoundAngleFrameLayout
+        <ImageView
             android:id="@+id/app_settings_change_four"
-            style="@style/GirlStyle">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/girl_3" />
-        </engineer.echo.transition.widget.RoundAngleFrameLayout>
+            style="@style/GirlStyle"
+            android:src="@drawable/girl_3" />
     </LinearLayout>
 
-    <engineer.echo.transition.widget.RoundAngleFrameLayout
+    <engineer.echo.transition.widget.reflect.ReflectItemView
         android:id="@+id/app_settings_fake_left"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -133,7 +109,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/girl_0" />
-    </engineer.echo.transition.widget.RoundAngleFrameLayout>
+    </engineer.echo.transition.widget.reflect.ReflectItemView>
 
     <ImageView
         android:id="@+id/take_photo_btn"

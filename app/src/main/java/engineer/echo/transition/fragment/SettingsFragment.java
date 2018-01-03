@@ -19,7 +19,6 @@ import engineer.echo.transition.App;
 import engineer.echo.transition.R;
 import engineer.echo.transition.context.BaseFragment;
 import engineer.echo.transition.utils.CommonUtil;
-import engineer.echo.transition.widget.RoundAngleFrameLayout;
 import engineer.echo.transition.widget.transition.BoundsAndAlpha;
 
 import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_LEFT;
@@ -124,7 +123,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         TransitionManager.beginDelayedTransition(mRoot, changeBounds);
         int c = mRoot.getChildCount();
         for (int i = 0; i < c; i++) {
-            RoundAngleFrameLayout child = (RoundAngleFrameLayout) mRoot.getChildAt(i);
+            View child = mRoot.getChildAt(i);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) child.getLayoutParams();
             if (child == v) {
                 params.width = mScaleSize;
