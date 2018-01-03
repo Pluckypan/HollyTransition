@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="10dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="让Android界面过度如丝滑般流畅\n版本:0.0.1\n2018-01-01 12:00 00"
+            android:text="让Android交互动画丝滑般流畅\n版本:0.0.1\n2018-01-01 12:00 00"
             android:textColor="@android:color/white" />
 
     </LinearLayout>
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp"
+        android:padding="10dp"
         app:layout_constraintTop_toBottomOf="@id/app_settings_about">
 
         <TextView
@@ -90,6 +90,32 @@
             style="@style/GirlStyle"
             android:src="@drawable/girl_3" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/app_settings_scene_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/app_settings_change">
+
+        <include layout="@layout/layout_scene_start" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/app_settings_scene_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#000066"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="点我排队"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_settings_scene_change" />
 
     <engineer.echo.transition.widget.reflect.ReflectItemView
         android:id="@+id/app_settings_fake_left"

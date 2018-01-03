@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.transition.ChangeBounds;
+import android.transition.Scene;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
@@ -29,6 +30,9 @@ import static engineer.echo.transition.fragment.AppCtrlFragment.SHARE_NAME_RIGHT
  * AppDisplayFragment
  * Created by Plucky<plucky@echo.engineer> on 2018/1/1 下午3:28.
  * more about me: http://www.1991th.com
+ * 总结：
+ * 类似于Flash的关键帧，补间动画概念
+ * captureStarValues--->CaptureEndValues--->根据createAnimator设定的动画来 执行动画变化
  */
 
 public class SettingsFragment extends BaseFragment implements View.OnClickListener {
@@ -37,6 +41,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private LinearLayout mRoot;
     private View mOne, mTwo, mThree, mFour;
     private int mNormalSize, mScaleSize;
+    private LinearLayout mSceneRoot;
 
 
     public SettingsFragment() {
@@ -90,6 +95,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         mThree.setOnClickListener(this);
         mFour.setOnClickListener(this);
 
+        mSceneRoot = view.findViewById(R.id.app_settings_scene_change);
+        view.findViewById(R.id.app_settings_scene_btn).setOnClickListener(this);
+
         ViewCompat.setTransitionName(mFakeLeft, SHARE_NAME_LEFT);
         ViewCompat.setTransitionName(mPhotoBtn, SHARE_NAME_MIDDLE);
         ViewCompat.setTransitionName(mFakeRight, SHARE_NAME_RIGHT);
@@ -114,9 +122,28 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.app_settings_change_four:
                 changeAttr(view);
                 break;
+            case R.id.app_settings_scene_btn:
+                sceneChange();
+                break;
         }
     }
 
+    /**
+     * 场景动画
+     */
+    private void sceneChange() {
+        boolean isSelected = mSceneRoot.isSelected();
+        int resID = isSelected ? R.layout.layout_scene_start : R.layout.layout_scene_end;
+        Scene sceneTwo = Scene.getSceneForLayout(mSceneRoot, resID, getContext());
+        TransitionManager.go(sceneTwo, new ChangeBounds());
+        mSceneRoot.setSelected(!isSelected);
+    }
+
+    /**
+     * 延迟动画
+     *
+     * @param v View 当前点击的View
+     */
     private void changeAttr(View v) {
         ChangeBounds changeBounds = new ChangeBounds();
         changeBounds.setDuration(400);
