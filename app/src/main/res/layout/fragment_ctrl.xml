@@ -6,8 +6,8 @@
 
     <engineer.echo.transition.widget.reflect.ReflectItemView
         android:id="@+id/scene_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="30dp"
         android:layout_marginRight="30dp"
         app:isShape="true"
@@ -24,8 +24,8 @@
 
     <ImageView
         android:id="@+id/take_photo_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="30dp"
         android:scaleType="centerCrop"
         android:src="@drawable/play"
@@ -35,8 +35,8 @@
 
     <ImageView
         android:id="@+id/settings_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="30dp"
         android:scaleType="centerCrop"
