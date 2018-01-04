@@ -29,10 +29,33 @@ fragment.setSharedElementEnterTransition(new ChangeBounds());
 fragment.setSharedElementReturnTransition(new ChangeBounds());
 ```
 
+### 改造共享元素动画
+Transition的三大核心方法如下。
+```
+@Override
+public void captureStartValues(TransitionValues transitionValues) {
+    super.captureStartValues(transitionValues);
+    Log.d(TAG, "captureStartValues: transitionValues=" + transitionValues);
+}
+
+@Override
+public void captureEndValues(TransitionValues transitionValues) {
+    super.captureEndValues(transitionValues);
+    Log.d(TAG, "captureEndValues: transitionValues=" + transitionValues);
+}
+
+@Override
+public Animator createAnimator(ViewGroup sceneRoot, TransitionValues startValues, TransitionValues endValues) {
+    return super.createAnimator(sceneRoot, startValues, endValues);
+}
+```
+> 比如，现在有一个需求，共享元素需要在做入场动画发生形变`ChangeBounds`的同时，发生alpha的变化。刚开始，准备直接使用 xml 定制动画，一个changeBounds(左中右三个按钮同时形变) + 一个 fade (左右按钮在形变的同时 fadeout),但是发现只有形变生效,尝试使用自定义ChangeBounds，在createAnimator中拿到Animator，从而可以拿到Animator变化的过程 `ValueAnimator.AnimatorUpdateListener`,这样就可以实现形变的同时，发生alpha的变化。 [示例代码](https://github.com/Pluckypan/HollyTransition/blob/master/app/src/main/java/engineer/echo/transition/cmpts/widget/transition/BoundsAndAlpha.java)
+
 ### 路径动画
+> 路径动画在日常APP中使用的场景很多，比如京东、天猫 添加商品至购物车的动画。实现起来非常简单。直接使用Transition.setPathMotion(new ArcMotion());然后结合延时动画TransitionManager.beginDelayedTransition()即可。
 
 ### 进度条平滑过渡
-> iOS进度条有个方法：- (void)setProgress:(float)progress animated:(BOOL)animated; 如果animated=true 那么，设置进度时，会从当前进度平滑过渡到目标进度，大大提升了用户体验。Android进度条并不具备这种功能，但是借助Transition，可实现这个功能。
+> iOS进度条有个方法：- (void)setProgress:(float)progress animated:(BOOL)animated; 如果animated=true 那么，设置进度时，会从当前进度平滑过渡到目标进度，大大提升了用户体验。Android进度条并不具备这种功能，但是借助Transition，可实现这个功能。 [示例代码](https://github.com/Pluckypan/HollyTransition/blob/master/app/src/main/java/engineer/echo/transition/cmpts/widget/transition/BoundsAndAlpha.java)
 
 ### Tips 1
 > 入场动画时，是直接拿着 进入页面的View进行动画的，返场动画时，不直接拿着View进行动画，而是在Overlap上，创建与Targets对应的ImageView，然后截取Targets的画面，显示在ImageView上，返场动画主要是在Overlap上进行的。

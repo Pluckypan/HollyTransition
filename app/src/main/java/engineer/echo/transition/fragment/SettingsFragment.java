@@ -210,6 +210,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         /**
          * 进入Setting页面时 被标记的View 会在进行变形的同时 进行alpha的渐变 1~0
          */
+        //给共享元素从xml中加载动画集 只有ChangeBounds生效 无法组合Fade效果
+        //Transition boundsIn = TransitionInflater.from(App.getApp()).inflateTransition(R.transition.transition_settings_share_in);
         BoundsAndAlpha boundsIn = new BoundsAndAlpha(true);
         boundsIn.setDuration(TRANSITION_TIME);
         fragment.setSharedElementEnterTransition(boundsIn);
