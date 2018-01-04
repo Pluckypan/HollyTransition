@@ -2,6 +2,11 @@
 深入解读Android过场动画、共享元素、场景动画
 
 
+> 为了支持各种交互视觉设计的不断更新，Android对于开发者提供了越来越多的动画API支持。从API 1就存在的Drawable Animation和View Animation，以及API 11(Android 3.0)以后加入的Property Animation。而过渡动画Transition是在API 19(Android 4.4.2)中加入的。
+
+### 为什么要引入Transition
+> 那为什么要引入Transition动画呢？由于在Android引入了Metrial Desigon之后，动画的场面越来越大，比如以前我们制作一个动画可能涉及到的View就一个，或者就那么几个，如果我们一个动画中涉及到了当前Activity视图树中的各个View，那么情况就复杂了。比如我们要一次针对视图树中的10个View进行动画，这些View的效果都不同，可能有的是平移，有的是旋转，有的是淡入淡出，那么不管是使用之前哪种方式的动画，我们都需要为每个View定义一个开始状态和结束状态【关键帧，比如放缩，我们得设置fromXScale和toXScale 】，随着View个数的增加，这个情况会越来越复杂。
+
 ### 内容过程动画
 > 对内容过场动画比较重要的几个函数,下面这种图比较形象地描述这个关系。Activity和Fragment的意思是一样的。这里以Activity的示意图来说明。
 
