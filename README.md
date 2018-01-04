@@ -2,6 +2,36 @@
 深入解读Android过场动画、共享元素、场景动画
 
 
+### 内容过程动画
+> 对内容过场动画比较重要的几个函数,下面这种图比较形象地描述这个关系。Activity和Fragment的意思是一样的。这里以Activity的示意图来说明。
+
+#### 入场动画对应关系
+![入场动画](images/transition-0.png)
+
+#### 返场动画对应关系
+![返场动画](images/transition-1.png)
+
+``` java
+TransitionSet transitionSet=new TransitionSet();
+//从 A Fragment 进入 B Fragment,A会执行 ExitTransition,B 会执行EnterTransition
+fragment.setEnterTransition(transitionSet);
+fragment.setExitTransition(transitionSet);
+//按返回键时，B Fragment 会pop出栈，执行ReturnTransition，此时 A Fragment 重新回到栈顶，执行ReEnterTransition.
+fragment.setReenterTransition(transitionSet);
+fragment.setReturnTransition(transitionSet);
+```
+
+### 共享元素过场动画
+> 页面切换时，对共享元素动画来讲，重要的函数有两个。共享元素执行的动画主要是针对将要进入的页面的。一个是入场动画 EnterTransition,另一个是 ReturnTransition。
+
+```
+fragment.setSharedElementEnterTransition(new ChangeBounds());
+fragment.setSharedElementReturnTransition(new ChangeBounds());
+```
+
+### Tips 1
+> 入场动画时，是直接拿着 进入页面的View进行动画的，返场动画时，不直接拿着View进行动画，而是在Overlap上，创建与Targets对应的ImageView，然后截取Targets的画面，显示在ImageView上，返场动画主要是在Overlap上进行的。
+
 ### 参考项目
 - [Transitions-Everywhere](https://github.com/andkulikov/Transitions-Everywhere)
 > 下面就是开源库 Transitions-Everywhere 登场了，Transitions-Everywhere 向后移植到 Android 4.O ,并且兼容 Android 2.2 +.
@@ -11,4 +41,7 @@
 
 - [TransitionExample](https://github.com/WakeHao/TransitionExample)
 > 早在Android 4.4，Transition 就已经引入，但在5.0才得以真正的实现。而究竟Transition是用来干嘛的呢?这个Demo可以带你熟悉基本的操作。
+
+- [Android-Material-Examples](https://github.com/saulmm/Android-Material-Examples)
+> ViewPager中的共享元素动画
 

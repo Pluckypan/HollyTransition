@@ -2,6 +2,7 @@ package engineer.echo.transition.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
@@ -12,7 +13,9 @@ import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +47,11 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private View mFakeLeft, mPhotoBtn, mFakeRight;
     private LinearLayout mRoot;
     private View mOne, mTwo, mThree, mFour;
-    private View mSceneOne, mSceneTwo, mSceneThree, mSceneFour;
+    private View mFadeBtn;
+    private View mAboutView;
     private int mNormalSize, mScaleSize;
     private LinearLayout mSceneRoot;
+    private ConstraintLayout mSettingRoot;
 
 
     public SettingsFragment() {
@@ -83,6 +88,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        mSettingRoot = view.findViewById(R.id.app_settings_root);
         mFakeLeft = view.findViewById(R.id.app_settings_fake_left);
         mPhotoBtn = view.findViewById(R.id.take_photo_btn);
         mFakeRight = view.findViewById(R.id.app_settings_fake_right);
@@ -102,7 +108,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         mThree.setOnClickListener(this);
         mFour.setOnClickListener(this);
 
-        initSceneView(view);
+        mAboutView = view.findViewById(R.id.app_settings_about);
+        mFadeBtn = view.findViewById(R.id.app_settings_fade_btn);
+        mFadeBtn.setOnClickListener(this);
 
         mSceneRoot = view.findViewById(R.id.app_settings_scene_change);
         view.findViewById(R.id.app_settings_scene_btn).setOnClickListener(this);
@@ -134,31 +142,23 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.app_settings_scene_btn:
                 sceneChange();
                 break;
-
-            case R.id.app_settings_scene_one:
-            case R.id.app_settings_scene_two:
-            case R.id.app_settings_scene_three:
-            case R.id.app_settings_scene_four:
-                visibilityChange(view);
+            case R.id.app_settings_fade_btn:
+                visibilityChange(mAboutView);
                 break;
         }
     }
 
-    private void initSceneView(View view) {
-        mSceneOne = view.findViewById(R.id.app_settings_scene_one);
-        mSceneTwo = view.findViewById(R.id.app_settings_scene_two);
-        mSceneThree = view.findViewById(R.id.app_settings_scene_three);
-        mSceneFour = view.findViewById(R.id.app_settings_scene_four);
-
-        mSceneOne.setOnClickListener(this);
-        mSceneTwo.setOnClickListener(this);
-        mSceneThree.setOnClickListener(this);
-        mSceneFour.setOnClickListener(this);
-    }
-
     private void visibilityChange(View view) {
-        TransitionManager.beginDelayedTransition(mSceneRoot, new Fade());
-        view.setVisibility(View.GONE);
+        TransitionSet transitionSet = new TransitionSet();
+        transitionSet.setDuration(TRANSITION_TIME);
+        transitionSet.addTransition(new Fade());
+        transitionSet.addTransition(new Slide(Gravity.TOP));
+        TransitionManager.beginDelayedTransition(mSettingRoot, transitionSet);
+        if (view.getVisibility() == View.VISIBLE) {
+            view.setVisibility(View.INVISIBLE);
+        } else {
+            view.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -207,10 +207,16 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         Transition transitionOut = TransitionInflater.from(App.getApp()).inflateTransition(R.transition.transition_settings_out);
         fragment.setReturnTransition(transitionOut);
 
+        /**
+         * 进入Setting页面时 被标记的View 会在进行变形的同时 进行alpha的渐变 1~0
+         */
         BoundsAndAlpha boundsIn = new BoundsAndAlpha(true);
         boundsIn.setDuration(TRANSITION_TIME);
         fragment.setSharedElementEnterTransition(boundsIn);
 
+        /**
+         * 退出Setting页面时 被标记的View 会在进行形变的同时 进行alpha的渐变 0~1
+         */
         BoundsAndAlpha boundsOut = new BoundsAndAlpha(false);
         boundsOut.setDuration(TRANSITION_TIME);
         fragment.setSharedElementReturnTransition(boundsOut);
@@ -223,6 +229,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
                 fragmentTransaction.addSharedElement(shareView.first, shareView.second);
             }
         }
+
         fragmentTransaction.commit();
 
     }

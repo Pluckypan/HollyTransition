@@ -9,4 +9,5 @@ package engineer.echo.transition;
 public class Constants {
     public static final int TRANSITION_TIME = 600;
     public static final int TRANSITION_TIME_SHORT = 400;
+    public static final int TRANSITION_TIME_LONG = 800;
 }
