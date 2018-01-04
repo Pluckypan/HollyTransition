@@ -65,6 +65,12 @@ public Animator createAnimator(ViewGroup sceneRoot, TransitionValues startValues
 ### Tips 1
 > 入场动画时，是直接拿着 进入页面的View进行动画的，返场动画时，不直接拿着View进行动画，而是在Overlap上，创建与Targets对应的ImageView，然后截取Targets的画面，显示在ImageView上，返场动画主要是在Overlap上进行的。
 
+### 遇到的问题
+1. Scene会RemoveAllView 导致点击事件消失
+2. 退场动画时，会截取View的canvas，如果自定义控件有影响canvas的绘制过程
+3. 共享元素必须处于根部局
+4. 要简单
+
 ### 参考项目
 - [Transitions-Everywhere](https://github.com/andkulikov/Transitions-Everywhere)
 > 下面就是开源库 Transitions-Everywhere 登场了，Transitions-Everywhere 向后移植到 Android 4.O ,并且兼容 Android 2.2 +.
@@ -77,4 +83,7 @@ public Animator createAnimator(ViewGroup sceneRoot, TransitionValues startValues
 
 - [Android-Material-Examples](https://github.com/saulmm/Android-Material-Examples)
 > ViewPager中的共享元素动画
+
+- [ViewOverlay与animation介绍](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0130/2384.html)
+> ViewOverlay与animation介绍
 
