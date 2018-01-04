@@ -1,4 +1,4 @@
-package engineer.echo.transition.utils;
+package engineer.echo.transition.cmpts.utils;
 
 import android.util.DisplayMetrics;
 

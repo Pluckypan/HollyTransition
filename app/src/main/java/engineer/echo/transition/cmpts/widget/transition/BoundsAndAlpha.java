@@ -1,4 +1,4 @@
-package engineer.echo.transition.widget.transition;
+package engineer.echo.transition.cmpts.widget.transition;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
