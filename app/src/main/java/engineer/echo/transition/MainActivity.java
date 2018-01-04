@@ -2,6 +2,8 @@ package engineer.echo.transition;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.transition.Slide;
+import android.view.Gravity;
 
 import engineer.echo.transition.cmpts.context.BaseActivity;
 import engineer.echo.transition.fragment.AppCtrlFragment;
@@ -28,6 +30,18 @@ public class MainActivity extends BaseActivity {
         transaction.add(R.id.app_display_view, displayFragment);
         //控制层
         AppCtrlFragment ctrlFragment = AppCtrlFragment.newInstance();
+
+        //设置Fragment离开时执行的动画   --变成不可见
+        Slide slideExit = new Slide(Gravity.LEFT);
+        slideExit.addTarget(R.id.progressBar);
+        slideExit.setDuration(Constants.TRANSITION_TIME);
+        ctrlFragment.setExitTransition(slideExit);
+        //设置Fragment重新回到栈顶时执行的动画 ---重新可见
+        Slide slideReEnter = new Slide(Gravity.RIGHT);
+        slideReEnter.addTarget(R.id.progressBar);
+        slideReEnter.setDuration(Constants.TRANSITION_TIME);
+        ctrlFragment.setReenterTransition(slideReEnter);
+
         transaction.add(R.id.app_ctrl_view, ctrlFragment);
         transaction.commit();
     }
