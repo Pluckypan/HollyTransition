@@ -52,6 +52,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     private int mNormalSize, mScaleSize;
     private LinearLayout mSceneRoot;
     private ConstraintLayout mSettingRoot;
+    private Scene mSceneStart, mSceneEnd;
 
 
     public SettingsFragment() {
@@ -113,6 +114,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         mFadeBtn.setOnClickListener(this);
 
         mSceneRoot = view.findViewById(R.id.app_settings_scene_change);
+        mSceneStart = Scene.getSceneForLayout(mSceneRoot, R.layout.layout_scene_start, getContext());
+        mSceneEnd = Scene.getSceneForLayout(mSceneRoot, R.layout.layout_scene_end, getContext());
+
         view.findViewById(R.id.app_settings_scene_btn).setOnClickListener(this);
 
         ViewCompat.setTransitionName(mFakeLeft, SHARE_NAME_LEFT);
@@ -166,9 +170,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
      */
     private void sceneChange() {
         boolean isSelected = mSceneRoot.isSelected();
-        int resID = isSelected ? R.layout.layout_scene_start : R.layout.layout_scene_end;
-        Scene sceneTwo = Scene.getSceneForLayout(mSceneRoot, resID, getContext());
-        TransitionManager.go(sceneTwo, new ChangeBounds());
+        TransitionManager.go(isSelected ? mSceneStart : mSceneEnd, new ChangeBounds());
         mSceneRoot.setSelected(!isSelected);
     }
 
