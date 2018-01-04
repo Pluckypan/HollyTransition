@@ -170,6 +170,7 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.scene_btn:
+                GalleryFragment.gotoPage(getFragmentManager(), mShareViews[0]);
                 break;
             case R.id.take_photo_btn:
                 //拍照很卡 暂时屏蔽
