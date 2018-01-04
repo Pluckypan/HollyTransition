@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <engineer.echo.transition.widget.reflect.ReflectItemView
+    <engineer.echo.transition.cmpts.widget.reflect.ReflectItemView
         android:id="@+id/scene_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -20,7 +21,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/girl_0" />
-    </engineer.echo.transition.widget.reflect.ReflectItemView>
+    </engineer.echo.transition.cmpts.widget.reflect.ReflectItemView>
 
     <ImageView
         android:id="@+id/take_photo_btn"
@@ -43,5 +44,27 @@
         android:src="@drawable/set"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/take_photo_btn" />
+
+
+    <engineer.echo.transition.cmpts.widget.reflect.ReflectItemView
+        android:id="@+id/capture_holder"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        android:alpha="0"
+        app:isShape="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:radius="60dp">
+
+        <ImageView
+            android:id="@+id/capture_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/girl_0" />
+    </engineer.echo.transition.cmpts.widget.reflect.ReflectItemView>
+
 
 </android.support.constraint.ConstraintLayout>
