@@ -1,5 +1,7 @@
 package engineer.echo.transition.fragment;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -18,12 +20,17 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.Random;
+
+import ch.halcyon.squareprogressbar.SquareProgressBar;
+import ch.halcyon.squareprogressbar.utils.PercentStyle;
 import engineer.echo.transition.Constants;
 import engineer.echo.transition.R;
 import engineer.echo.transition.cmpts.context.BaseFragment;
 import engineer.echo.transition.cmpts.events.CaptureFinishEvent;
 import engineer.echo.transition.cmpts.utils.CommonUtil;
 import engineer.echo.transition.cmpts.widget.reflect.ReflectItemView;
+import engineer.echo.transition.cmpts.widget.transition.ProgressTransition;
 
 /**
  * AppCtrlFragment
@@ -43,6 +50,7 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
     private ImageView mCaptureView;
     private ConstraintLayout mRootView;
     private int mEndSize, mMargin;
+    private SquareProgressBar mProgressBar;
 
     public AppCtrlFragment() {
         mEndSize = (int) CommonUtil.dip2px(50);
@@ -86,6 +94,17 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
         mSettingsBtn = view.findViewById(R.id.settings_btn);
         mCaptureHolder = view.findViewById(R.id.capture_holder);
         mCaptureView = view.findViewById(R.id.capture_image);
+
+        mProgressBar = view.findViewById(R.id.progressBar);
+        mProgressBar.setImage(R.drawable.girl_4);
+        mProgressBar.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
+        mProgressBar.setOnClickListener(this);
+        mProgressBar.setWidth(2);
+        PercentStyle mStyle = new PercentStyle(Paint.Align.CENTER, 14f, true);
+        mStyle.setTextColor(Color.WHITE);
+        mProgressBar.setPercentStyle(mStyle);
+        mProgressBar.drawCenterline(true);
+        mProgressBar.drawOutline(true);
 
         mSceneBtn.setOnClickListener(this);
         mPhotoBtn.setOnClickListener(this);
@@ -139,6 +158,14 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
         mCaptureHolder.setLayoutParams(params);
     }
 
+    private void smoothProgress() {
+        Random random = new Random();
+        int value = random.nextInt(100);
+        TransitionManager.beginDelayedTransition(mRootView, new ProgressTransition());
+        value = Math.max(0, Math.min(100, value));
+        mProgressBar.setProgress(value);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -151,6 +178,9 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.settings_btn:
                 SettingsFragment.gotoPage(getFragmentManager(), mShareViews);
+                break;
+            case R.id.progressBar:
+                smoothProgress();
                 break;
         }
     }

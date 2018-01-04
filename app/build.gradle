@@ -29,6 +29,9 @@ dependencies {
     })
 
     implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'ch.halcyon:squareprogressbar:1.6.3'
+
+    implementation "com.andkulikov:transitionseverywhere:1.7.8"
 
     //单元测试
     testImplementation 'junit:junit:4.12'

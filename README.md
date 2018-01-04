@@ -29,6 +29,11 @@ fragment.setSharedElementEnterTransition(new ChangeBounds());
 fragment.setSharedElementReturnTransition(new ChangeBounds());
 ```
 
+### 路径动画
+
+### 进度条平滑过渡
+> iOS进度条有个方法：- (void)setProgress:(float)progress animated:(BOOL)animated; 如果animated=true 那么，设置进度时，会从当前进度平滑过渡到目标进度，大大提升了用户体验。Android进度条并不具备这种功能，但是借助Transition，可实现这个功能。
+
 ### Tips 1
 > 入场动画时，是直接拿着 进入页面的View进行动画的，返场动画时，不直接拿着View进行动画，而是在Overlap上，创建与Targets对应的ImageView，然后截取Targets的画面，显示在ImageView上，返场动画主要是在Overlap上进行的。
 
