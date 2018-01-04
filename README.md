@@ -22,7 +22,7 @@ fragment.setReturnTransition(transitionSet);
 ```
 
 ### 共享元素过场动画
-> 页面切换时，对共享元素动画来讲，重要的函数有两个。共享元素执行的动画主要是针对将要进入的页面的。一个是入场动画 EnterTransition,另一个是 ReturnTransition。
+> 页面切换时，对共享元素动画来讲，重要的函数有两个。共享元素执行的动画主要是针对将要进入的页面的。一个是入场动画 EnterTransition,另一个是返场 ReturnTransition。
 
 ```
 fragment.setSharedElementEnterTransition(new ChangeBounds());

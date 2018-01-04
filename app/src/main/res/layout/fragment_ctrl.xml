@@ -13,7 +13,7 @@
         app:isShape="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/take_photo_btn"
-        app:radius="30dp">
+        app:radius="25dp">
 
         <ImageView
             android:layout_width="match_parent"
