@@ -3,7 +3,7 @@ package engineer.echo.transition;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
-import engineer.echo.transition.context.BaseActivity;
+import engineer.echo.transition.cmpts.context.BaseActivity;
 import engineer.echo.transition.fragment.AppCtrlFragment;
 import engineer.echo.transition.fragment.AppDisplayFragment;
 

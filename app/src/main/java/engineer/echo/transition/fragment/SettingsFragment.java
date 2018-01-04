@@ -23,9 +23,9 @@ import android.widget.LinearLayout;
 
 import engineer.echo.transition.App;
 import engineer.echo.transition.R;
-import engineer.echo.transition.context.BaseFragment;
-import engineer.echo.transition.utils.CommonUtil;
-import engineer.echo.transition.widget.transition.BoundsAndAlpha;
+import engineer.echo.transition.cmpts.context.BaseFragment;
+import engineer.echo.transition.cmpts.utils.CommonUtil;
+import engineer.echo.transition.cmpts.widget.transition.BoundsAndAlpha;
 
 import static engineer.echo.transition.Constants.TRANSITION_TIME;
 import static engineer.echo.transition.Constants.TRANSITION_TIME_SHORT;
