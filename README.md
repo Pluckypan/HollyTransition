@@ -17,10 +17,10 @@
 > 以前使用过场动画时，实现共享元素，主要是使用Activity，但是有遇到很多坑：比如最严重的一个是在某些机型上出现做返场动画时，第二个页面的画面还残留在页面上；第二个问题是，在存在虚拟导航栏的手机上，由于不同Activity是在不同的Window上绘制的，在Activity切换时界面存在闪烁的情况。而Fragment的切换则不存在这样的问题。综合考虑，决定使用Fragment。
 
 #### 示例图1：入场动画
-![入场动画](images/transition_in.gif)
+![入场动画](https://github.com/Pluckypan/HollyTransition/raw/master/images/transition_in.gif)
 
 #### 示例图2：返场动画
-![返场动画](images/transition_out.gif)
+![返场动画](https://github.com/Pluckypan/HollyTransition/raw/master/images/transition_out.gif)
 
 #### 三(1)、共享元素动画
 > 如上图中 **画廊按钮**、**拍摄按钮**、**设置按钮** ;页面切换时，对共享元素动画来讲，重要的函数有以下几个。共享元素执行的动画主要是针对将要进入的页面的。一个是入场动画 EnterTransition,另一个是返场 ReturnTransition。在做共享元素动画时，需要在前后两个页面对共享元素设定TransitionName，且对应的两个View，TransitionName需要相同。
@@ -74,10 +74,10 @@ public Animator createAnimator(ViewGroup sceneRoot, TransitionValues startValues
 > 如上面图片中，设置页面的**背景渐变**、**动起来 SlideUp**、**功能说明 SlideUp**;拍摄页面的**进度条封面 Slide Left&Right**。这里所说的`内容动画`，指的是Fragment布局中除共享元素外的View执行的动画，主要是为了区分`共享元素动画`。对内容过场动画比较重要的几个函数,下面这种图比较形象地描述这个关系。Activity和Fragment的意思是一样的。这里以Activity的示意图来说明。
 
 ##### 示例图3：入场动画对应关系
-![入场动画](images/transition-0.png)
+![入场动画](https://github.com/Pluckypan/HollyTransition/raw/master/images/transition-0.png)
 
 ##### 示例图4：返场动画对应关系
-![返场动画](images/transition-1.png)
+![返场动画](https://github.com/Pluckypan/HollyTransition/raw/master/images/transition-1.png)
 
 ``` java
 TransitionSet transitionSet=new TransitionSet();
@@ -94,24 +94,24 @@ fragment.setReturnTransition(transitionSet);
 > iOS进度条有个方法：- (void)setProgress:(float)progress animated:(BOOL)animated; 如果animated=true 那么，设置进度时，会从当前进度平滑过渡到目标进度，大大提升了用户体验。Android进度条并不具备这种功能，只能设定一个progress,控件就僵硬地跳到对应的位置。但是借助Transition，可实现这个功能。 [示例代码](https://github.com/Pluckypan/HollyTransition/blob/master/app/src/main/java/engineer/echo/transition/cmpts/widget/transition/ProgressTransition.java)
 
 ##### 示例图5：实现进度条平滑过渡
-![进度条](images/progress.gif)
+![进度条](https://github.com/Pluckypan/HollyTransition/raw/master/images/progress.gif)
 
 #### 四(2)、放大缩小效果
 ##### 示例图6：实现同一ViewGroup中两个View之间协调放大与缩小效果
-![放大缩小](images/scale.gif)
+![放大缩小](https://github.com/Pluckypan/HollyTransition/raw/master/images/scale.gif)
 
 #### 四(3)、Slide与Fade组合动画
 ##### 示例图7：从上滑入从下滑出并且渐入渐出
-![渐入渐出](images/slide_fade.gif)
+![渐入渐出](https://github.com/Pluckypan/HollyTransition/raw/master/images/slide_fade.gif)
 
 
 ### 五、路径动画
 > 路径动画在日常APP中使用的场景很多，比如京东、天猫 添加商品至购物车的动画。实现起来非常简单。直接使用Transition.setPathMotion(new ArcMotion());然后结合延时动画TransitionManager.beginDelayedTransition()即可。
 
 ##### 示例图片8：普通路径动画
-![路径动画-普通](images/path_normal.gif)
+![路径动画-普通](https://github.com/Pluckypan/HollyTransition/raw/master/images/path_normal.gif)
 ##### 示例图片9：路径动画在共享元素中的运用
-![路径动画-普通](images/path_share_element.gif)
+![路径动画-普通](https://github.com/Pluckypan/HollyTransition/raw/master/images/path_share_element.gif)
 
 ### 六、源码解析
 > 入场动画时，是直接拿着 进入页面的View进行动画的，返场动画时，不直接拿着View进行动画，而是在Overlap上，创建与Targets对应的ImageView，然后截取Targets的画面，显示在ImageView上，返场动画主要是在Overlap上进行的。
@@ -273,4 +273,12 @@ fragment.setAllowReturnTransitionOverlap(false);
 
 - [ViewOverlay与animation介绍](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0130/2384.html)
 > ViewOverlay与animation介绍。Transition在ReturnTransition动画时，会在第一个页面rootView的overlap上添加ImageView来执行动画。这篇文章详细介绍了Android中ViewOverlay的用处和原理。
+
+
+### 十、结尾
+[![](https://img.shields.io/github/forks/pluckypan/HollyTransition.svg?style=social)](https://github.com/Pluckypan/HollyTransition)
+[![](https://img.shields.io/github/stars/pluckypan/HollyTransition.svg?style=social)](https://github.com/Pluckypan/HollyTransition)
+[![](https://img.shields.io/github/followers/pluckypan.svg?style=social)](https://github.com/pluckypan/followers)
+
+本文示例代码: `git@github.com:Pluckypan/HollyTransition.git` [预览](https://github.com/Pluckypan/HollyTransition) 欢迎Star、Fork
 
