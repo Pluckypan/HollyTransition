@@ -117,7 +117,127 @@ fragment.setReturnTransition(transitionSet);
 > 入场动画时，是直接拿着 进入页面的View进行动画的，返场动画时，不直接拿着View进行动画，而是在Overlap上，创建与Targets对应的ImageView，然后截取Targets的画面，显示在ImageView上，返场动画主要是在Overlap上进行的。
 
 ``` java
-//待续
+    public Animator onDisappear(ViewGroup sceneRoot,
+                                TransitionValues startValues, int startVisibility,
+                                TransitionValues endValues, int endVisibility) {
+        if ((mMode & MODE_OUT) != MODE_OUT) {
+            return null;
+        }
+
+        View startView = (startValues != null) ? startValues.view : null;
+        View endView = (endValues != null) ? endValues.view : null;
+        /**
+         * 说明几点：
+         * #1 onDisappear方法位于android.transition.Visibility类中
+         * #2 在返场动画时，场景中每个被添加进Transition的Target都会执行该方法
+         * #3 这里定义了一个overlayView，先标记下，后面会用得到
+         */
+        View overlayView = null;
+        View viewToKeep = null;
+        if (endView == null || endView.getParent() == null) {
+            if (endView != null) {
+                // endView was removed from its parent - add it to the overlay
+                overlayView = endView;
+            } else if (startView != null) {
+                // endView does not exist. Use startView only under certain
+                // conditions, because placing a view in an overlay necessitates
+                // it being removed from its current parent
+                if (startView.getParent() == null) {
+                    // no parent - safe to use
+                    overlayView = startView;
+                } else if (startView.getParent() instanceof View) {
+                    /**
+                     * 如果StartView存在父布局
+                     */
+                    View startParent = (View) startView.getParent();
+                    TransitionValues startParentValues = getTransitionValues(startParent, true);
+                    TransitionValues endParentValues = getMatchedTransitionValues(startParent,
+                            true);
+                    VisibilityInfo parentVisibilityInfo =
+                            getVisibilityChangeInfo(startParentValues, endParentValues);
+                    if (!parentVisibilityInfo.visibilityChange) {
+                        /**
+                         * 如果StartView父布局在动画过程中未参与Visibility变化的话，那么就会
+                         * 创建一个ImageView，并将StartView 画布Canvas上的内容转换为Bitmap设置到新创建的ImageView上
+                         */
+                        overlayView = TransitionUtils.copyViewImage(sceneRoot, startView,
+                                startParent);
+                    } else if (startParent.getParent() == null) {
+                        int id = startParent.getId();
+                        if (id != View.NO_ID && sceneRoot.findViewById(id) != null
+                                && mCanRemoveViews) {
+                            // no parent, but its parent is unparented  but the parent
+                            // hierarchy has been replaced by a new hierarchy with the same id
+                            // and it is safe to un-parent startView
+                            overlayView = startView;
+                        }
+                    }
+                }
+            }
+        } else {
+            // visibility change
+            if (endVisibility == View.INVISIBLE) {
+                viewToKeep = endView;
+            } else {
+                // Becoming GONE
+                if (startView == endView) {
+                    viewToKeep = endView;
+                } else {
+                    overlayView = startView;
+                }
+            }
+        }
+        final int finalVisibility = endVisibility;
+        final ViewGroup finalSceneRoot = sceneRoot;
+
+        if (overlayView != null) {
+            // TODO: Need to do this for general case of adding to overlay
+            int[] screenLoc = (int[]) startValues.values.get(PROPNAME_SCREEN_LOCATION);
+            int screenX = screenLoc[0];
+            int screenY = screenLoc[1];
+            int[] loc = new int[2];
+            sceneRoot.getLocationOnScreen(loc);
+            overlayView.offsetLeftAndRight((screenX - loc[0]) - overlayView.getLeft());
+            overlayView.offsetTopAndBottom((screenY - loc[1]) - overlayView.getTop());
+            /**
+             * 通过上面一系列的判断，最终会将得到的overlayView添加到 场景一（及A页面）根部局的Overlap上
+             * 也就是说，其实在做返场动画时，所有的动画都是在 A页面的Overlap上进行的。做完动画再将其从Overlap上移除。
+             * 这里的overlayView可能是 B页面的控件，也有可能是B页面控件的画面（new了一个ImageView的形式展示）
+             * 什么是Overlap,可参考文章：http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0130/2384.html
+             */
+            sceneRoot.getOverlay().add(overlayView);
+            Animator animator = onDisappear(sceneRoot, overlayView, startValues, endValues);
+            if (animator == null) {
+                sceneRoot.getOverlay().remove(overlayView);
+            } else {
+                final View finalOverlayView = overlayView;
+                addListener(new TransitionListenerAdapter() {
+                    @Override
+                    public void onTransitionEnd(Transition transition) {
+                        finalSceneRoot.getOverlay().remove(finalOverlayView);
+                    }
+                });
+            }
+            return animator;
+        }
+
+        if (viewToKeep != null) {
+            int originalVisibility = viewToKeep.getVisibility();
+            viewToKeep.setTransitionVisibility(View.VISIBLE);
+            Animator animator = onDisappear(sceneRoot, viewToKeep, startValues, endValues);
+            if (animator != null) {
+                DisappearListener disappearListener = new DisappearListener(viewToKeep,
+                        finalVisibility, mSuppressLayout);
+                animator.addListener(disappearListener);
+                animator.addPauseListener(disappearListener);
+                addListener(disappearListener);
+            } else {
+                viewToKeep.setTransitionVisibility(originalVisibility);
+            }
+            return animator;
+        }
+        return null;
+    }
 
 ```
 
@@ -126,6 +246,12 @@ fragment.setReturnTransition(transitionSet);
 2. 退场动画时，会截取View的canvas，并在A页面rootview的overlap上添加ImageView,如果自定义控件有影响canvas的绘制过程，则添加到ImageView上的Bitmap可能不正确
 3. 共享元素必须是RootView的直接子View
 4. 做页面间的过渡动画时，两个页面尽量简单，比如加载网络图片时，可以先使用前一个页面的图片做动画，等动画做完后再去加载图片。不可以一边儿做动画，一边儿加载图片，会造成动画很闪烁。
+5. Fragment设置TransitionOverlap无效，还需要研究下。
+``` java
+fragment.setAllowEnterTransitionOverlap(false);
+fragment.setAllowReturnTransitionOverlap(false);
+```
+6. 在Fragment中使用 **共享元素动画** 时，需要两个Fragment基于同一个`layout_id`,然后通过`replace`的形式打开。
 
 ### 参考项目
 - [Transitions-Everywhere](https://github.com/andkulikov/Transitions-Everywhere)
@@ -135,7 +261,7 @@ fragment.setReturnTransition(transitionSet);
 > 详细解读Fragment与Fragment Activity与Activity Activity与Fragment之间的切换动画
 
 - [TransitionExample](https://github.com/WakeHao/TransitionExample)
-> 早在Android 4.4，Transition 就已经引入，但在5.0才得以真正的实现。而究竟Transition是用来干嘛的呢?这个Demo可以带你熟悉基本的操作。特点是比较熟练的使用xml来定义动画，动画斜街做得比较好。
+> 早在Android 4.4，Transition 就已经引入，但在5.0才得以真正的实现。而究竟Transition是用来干嘛的呢?这个Demo可以带你熟悉基本的操作。特点是比较熟练的使用xml来定义动画，动画衔接做得比较好。
 
 - [Android-Material-Examples](https://github.com/saulmm/Android-Material-Examples)
 > 主要特点是介绍ViewPager中实现的一些Transition动画
