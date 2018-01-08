@@ -135,7 +135,10 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
         mCaptureHolder.setAlpha(1.0f);
 
         ChangeBounds changeBounds = new ChangeBounds();
-        changeBounds.setPathMotion(new ArcMotion());
+        // TODO: Added By Plucky 2018/1/8 11:39 路径动画需要API版本>=LOLLIPOP
+        if (CommonUtil.isOverLollipop()){
+            changeBounds.setPathMotion(new ArcMotion());
+        }
         changeBounds.setDuration(Constants.TRANSITION_TIME);
         TransitionManager.beginDelayedTransition(mRootView,
                 changeBounds);

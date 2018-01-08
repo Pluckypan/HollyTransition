@@ -15,4 +15,12 @@ public class CommonUtil {
         DisplayMetrics dm = App.getApp().getResources().getDisplayMetrics();
         return pDipValue * dm.density;
     }
+
+    public static boolean isBelowLollipop() {
+        return android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static boolean isOverLollipop() {
+        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
+    }
 }

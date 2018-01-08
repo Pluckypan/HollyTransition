@@ -11,9 +11,10 @@
             <target android:targetId="@+id/app_settings_func" />
         </targets>
     </slide>
+
     <slide
-        android:duration="500"
-        android:startDelay="100">
+        android:duration="600"
+        android:slideEdge="right">
         <targets>
             <target android:targetId="@+id/app_settings_change" />
         </targets>

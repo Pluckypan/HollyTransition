@@ -9,13 +9,11 @@ import android.support.v4.view.ViewCompat;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
 import android.transition.Scene;
-import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
 import android.transition.TransitionSet;
 import android.util.Pair;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +24,7 @@ import engineer.echo.transition.R;
 import engineer.echo.transition.cmpts.context.BaseFragment;
 import engineer.echo.transition.cmpts.utils.CommonUtil;
 import engineer.echo.transition.cmpts.widget.transition.BoundsAndAlpha;
+import engineer.echo.transition.cmpts.widget.transition.SafeSlide;
 
 import static engineer.echo.transition.Constants.TRANSITION_TIME;
 import static engineer.echo.transition.Constants.TRANSITION_TIME_SHORT;
@@ -156,7 +155,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         TransitionSet transitionSet = new TransitionSet();
         transitionSet.setDuration(TRANSITION_TIME);
         transitionSet.addTransition(new Fade());
-        transitionSet.addTransition(new Slide(Gravity.TOP));
+        SafeSlide slide = new SafeSlide();
+        transitionSet.addTransition(slide);
         TransitionManager.beginDelayedTransition(mSettingRoot, transitionSet);
         if (view.getVisibility() == View.VISIBLE) {
             view.setVisibility(View.INVISIBLE);

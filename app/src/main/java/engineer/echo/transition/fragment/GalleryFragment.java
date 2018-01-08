@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import engineer.echo.transition.R;
 import engineer.echo.transition.cmpts.context.BaseFragment;
+import engineer.echo.transition.cmpts.utils.CommonUtil;
 import engineer.echo.transition.cmpts.widget.reflect.ReflectItemView;
 
 import static engineer.echo.transition.Constants.TRANSITION_TIME;
@@ -80,13 +81,20 @@ public class GalleryFragment extends BaseFragment {
 
         ChangeBounds boundsIn = new ChangeBounds();
         boundsIn.setDuration(TRANSITION_TIME);
-        boundsIn.setPathMotion(new ArcMotion());
+        // TODO: Added By Plucky 2018/1/8 11:39 路径动画需要API版本>=LOLLIPOP
+        if (CommonUtil.isOverLollipop()) {
+            boundsIn.setPathMotion(new ArcMotion());
+        }
+
         fragment.setSharedElementEnterTransition(boundsIn);
 
 
         ChangeBounds boundsOut = new ChangeBounds();
         boundsOut.setDuration(TRANSITION_TIME);
-        boundsIn.setPathMotion(new ArcMotion());
+        // TODO: Added By Plucky 2018/1/8 11:39 路径动画需要API版本>=LOLLIPOP
+        if (CommonUtil.isOverLollipop()) {
+            boundsIn.setPathMotion(new ArcMotion());
+        }
         fragment.setSharedElementReturnTransition(boundsOut);
 
         FragmentTransaction fragmentTransaction = manager.beginTransaction();

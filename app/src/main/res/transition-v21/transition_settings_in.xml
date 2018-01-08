@@ -13,6 +13,7 @@
     </slide>
     <slide
         android:duration="500"
+        android:slideEdge="left"
         android:startDelay="100">
         <targets>
             <target android:targetId="@+id/app_settings_change" />
