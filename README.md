@@ -252,11 +252,13 @@ fragment.setAllowEnterTransitionOverlap(false);
 fragment.setAllowReturnTransitionOverlap(false);
 ```
 6. 在Fragment中使用 **共享元素动画** 时，需要两个Fragment基于同一个`layout_id`,然后通过`replace`的形式打开。
+7. 要使用`Transition`版本必须API>=19(Android4.4),有些功能 如 `Slide`设定Edge、路径动画`ArcMotion` 更是需要 API>=21(Android 5.0)
 
 ### 八、TODO
 - [ ] 图片切换平滑过渡效果
 - [ ] 颜色变化平滑过渡
 - [ ] 文字变化平滑过渡
+- [ ] 深入研究Transition-EveryWhere,存在类型转化的[BUG](https://github.com/andkulikov/Transitions-Everywhere/issues/11)
 
 ### 九、参考项目
 - [Transitions-Everywhere](https://github.com/andkulikov/Transitions-Everywhere)
