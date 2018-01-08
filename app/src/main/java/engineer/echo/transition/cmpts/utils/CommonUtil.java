@@ -1,5 +1,6 @@
 package engineer.echo.transition.cmpts.utils;
 
+import android.os.Build;
 import android.util.DisplayMetrics;
 
 import engineer.echo.transition.App;
@@ -20,7 +21,13 @@ public class CommonUtil {
         return android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP;
     }
 
+    //API 21
     public static boolean isOverLollipop() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    //API 19
+    public static boolean isOverKITKAT() {
+        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 }

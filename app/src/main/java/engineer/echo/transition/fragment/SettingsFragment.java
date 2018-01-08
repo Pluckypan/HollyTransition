@@ -14,6 +14,7 @@ import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
 import android.transition.TransitionSet;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +157,9 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         transitionSet.setDuration(TRANSITION_TIME);
         transitionSet.addTransition(new Fade());
         SafeSlide slide = new SafeSlide();
+        if (CommonUtil.isOverLollipop()) {
+            slide.setSlideEdge(Gravity.TOP);
+        }
         transitionSet.addTransition(slide);
         TransitionManager.beginDelayedTransition(mSettingRoot, transitionSet);
         if (view.getVisibility() == View.VISIBLE) {
