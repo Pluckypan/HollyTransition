@@ -24,10 +24,6 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$APPCOMPAT_V7"
     implementation "com.android.support.constraint:constraint-layout:$CONSTRAINT_LAYOUT"
 
-    implementation('com.flurgle:camerakit:0.9.17', {
-        exclude group: 'com.android.support'
-    })
-
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'ch.halcyon:squareprogressbar:1.6.3'
 
