@@ -5,12 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_gallery_app"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <engineer.echo.transition.cmpts.widget.reflect.ReflectItemView
         android:id="@+id/scene_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
         app:isShape="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/take_photo_btn"
@@ -38,8 +48,8 @@
         android:id="@+id/settings_btn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="30dp"
         android:layout_marginLeft="30dp"
+        android:layout_marginBottom="30dp"
         android:scaleType="centerCrop"
         android:src="@drawable/set"
         app:layout_constraintBottom_toBottomOf="parent"

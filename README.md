@@ -276,6 +276,13 @@ fragment.setAllowReturnTransitionOverlap(false);
 - [ViewOverlay与animation介绍](http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0130/2384.html)
 > ViewOverlay与animation介绍。Transition在ReturnTransition动画时，会在第一个页面rootView的overlap上添加ImageView来执行动画。这篇文章详细介绍了Android中ViewOverlay的用处和原理。
 
+- [Workcation](https://github.com/DroidsOnRoids/Workcation)
+> Transition DEMO
+
+- [continuous-shared-element-transitions](https://android-developers.googleblog.com/2018/02/continuous-shared-element-transitions.html)
+
+- [shared-element-transitions](https://github.com/mikescamell/shared-element-transitions)
+
 
 ### 十、结尾
 [![](https://img.shields.io/github/forks/pluckypan/HollyTransition.svg?style=social)](https://github.com/Pluckypan/HollyTransition)

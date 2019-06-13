@@ -5,7 +5,10 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.transition.ArcMotion;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
@@ -20,6 +23,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import ch.halcyon.squareprogressbar.SquareProgressBar;
@@ -39,7 +44,7 @@ import engineer.echo.transition.cmpts.widget.transition.ProgressTransition;
  * 点击控制
  */
 
-public class AppCtrlFragment extends BaseFragment implements View.OnClickListener {
+public class AppCtrlFragment extends BaseFragment implements View.OnClickListener, GalleryAdapter.GalleryListener {
 
     public static String SHARE_NAME_LEFT = "share_element_of_left";
     public static String SHARE_NAME_MIDDLE = "share_element_of_middle";
@@ -121,6 +126,20 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final RecyclerView recyclerView = view.findViewById(R.id.rcv_gallery_app);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 3);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(new GalleryAdapter(this));
+    }
+
+    @Override
+    public void onItemClick(ImageView imageView, int position) {
+        GalleryDetailFragment.gotoFragment(this, imageView, ViewCompat.getTransitionName(imageView));
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
@@ -136,7 +155,7 @@ public class AppCtrlFragment extends BaseFragment implements View.OnClickListene
 
         ChangeBounds changeBounds = new ChangeBounds();
         // TODO: Added By Plucky 2018/1/8 11:39 路径动画需要API版本>=LOLLIPOP
-        if (CommonUtil.isOverLollipop()){
+        if (CommonUtil.isOverLollipop()) {
             changeBounds.setPathMotion(new ArcMotion());
         }
         changeBounds.setDuration(Constants.TRANSITION_TIME);
