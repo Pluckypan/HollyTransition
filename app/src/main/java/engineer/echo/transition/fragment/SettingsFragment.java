@@ -122,6 +122,8 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         ViewCompat.setTransitionName(mFakeLeft, SHARE_NAME_LEFT);
         ViewCompat.setTransitionName(mPhotoBtn, SHARE_NAME_MIDDLE);
         ViewCompat.setTransitionName(mFakeRight, SHARE_NAME_RIGHT);
+
+        view.findViewById(R.id.ll_switch_setting).setOnClickListener(this);
         return view;
     }
 
@@ -149,7 +151,23 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
             case R.id.app_settings_fade_btn:
                 visibilityChange(mAboutView);
                 break;
+            case R.id.ll_switch_setting:
+                onSwitchView((LinearLayout) view);
+                break;
         }
+    }
+
+    private void onSwitchView(LinearLayout linearLayout) {
+        ChangeBounds changeBounds = new ChangeBounds();
+        changeBounds.setDuration(TRANSITION_TIME_SHORT);
+        TransitionManager.beginDelayedTransition(mSettingRoot, changeBounds);
+        ViewGroup.LayoutParams layoutParams = linearLayout.getLayoutParams();
+        if (layoutParams.width == mNormalSize) {
+            layoutParams.width = mNormalSize * 4;
+        } else {
+            layoutParams.width = mNormalSize;
+        }
+        linearLayout.setLayoutParams(layoutParams);
     }
 
     private void visibilityChange(View view) {

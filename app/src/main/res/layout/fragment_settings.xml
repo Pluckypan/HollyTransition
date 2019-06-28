@@ -21,7 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="match_parent"
@@ -42,14 +44,14 @@
         android:id="@+id/app_settings_fade_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:background="#000066"
         android:gravity="center"
-        android:paddingBottom="10dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
         android:text="渐隐渐现"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,10 +112,84 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_switch_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:background="@drawable/shape"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_settings_change">
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_1"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_1"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_3"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_1"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_1"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_1"
+        android:gravity="center"
+        android:text="5"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_switch_setting"
+        app:layout_constraintStart_toEndOf="@+id/ll_switch_setting"
+        app:layout_constraintTop_toTopOf="@+id/ll_switch_setting" />
+
+    <LinearLayout
         android:id="@+id/app_settings_scene_change"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/app_settings_change">
+        app:layout_constraintTop_toBottomOf="@id/ll_switch_setting">
 
         <include layout="@layout/layout_scene_start" />
     </LinearLayout>
@@ -124,10 +200,10 @@
         android:layout_height="wrap_content"
         android:background="#000066"
         android:gravity="center"
-        android:paddingBottom="10dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
         android:text="点我排队"
         android:textColor="@android:color/white"
         android:textStyle="bold"
@@ -139,8 +215,8 @@
         android:id="@+id/app_settings_fake_left"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:alpha="0"
         app:isShape="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -170,8 +246,8 @@
         android:id="@+id/app_settings_fake_right"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
         android:alpha="0"
         android:scaleType="centerCrop"
         android:src="@drawable/set"
